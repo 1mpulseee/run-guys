@@ -9,14 +9,21 @@ public class Player : MonoBehaviour
 
     [Space(5)]
     public float WalkSpeed = 2.5f; // макс. скорость
-    public float WalkAcceleration = 15; // ускорение
+    public int JumpForce;
+    public int SlideForwardForce;
+    public int SlideUpForce;
 
     private Rigidbody rb;
     private Animator anim;
 
     private Vector3 direction;
     private float h, v;
-    private float speed = 1;
+
+    public float RayDis;
+    private bool InAir;
+
+    private IEnumerator _Jump;
+    private IEnumerator _Slide;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -29,6 +36,41 @@ public class Player : MonoBehaviour
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
         CamOrigin.position = transform.position;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_Slide == null)
+            {
+                if (_Jump != null || InAir)
+                {
+                    _Slide = Slide();
+                    StartCoroutine(_Slide);
+                }
+            }
+            if (!InAir && _Jump == null)
+            {
+                _Jump = Jump();
+                StartCoroutine(_Jump);
+            }
+        }
+    }
+    public IEnumerator Jump()
+    {
+        anim.SetTrigger("jump");
+        yield return new WaitForSeconds(.45f);
+        rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        yield return new WaitForSeconds(1f);
+        _Jump = null;
+    }
+    public IEnumerator Slide()
+    {
+        anim.SetBool("slide", true);
+        anim.SetBool("Run", false);
+        anim.SetBool("idle", false);
+        rb.AddForce(Vector3.up * SlideUpForce, ForceMode.Impulse);
+        rb.AddForce(transform.forward * SlideForwardForce, ForceMode.Impulse);
+        yield return new WaitForSeconds(1f);
+        anim.SetBool("slide", false);
+        _Slide = null;
     }
     private void FixedUpdate()
     {
@@ -45,19 +87,29 @@ public class Player : MonoBehaviour
         Vector2 MoveDir = Vector2.zero;
         MoveDir.x = Mathf.Cos((transform.rotation.eulerAngles.y - 90) * Mathf.Deg2Rad);
         MoveDir.y = Mathf.Sin((transform.rotation.eulerAngles.y + 90) * Mathf.Deg2Rad);
-
-        if (h > 0.1f || h < -0.1f || v > 0.1f || v < -0.1f) //персонаж двигается
+        if (_Slide == null)
         {
-                rb.AddForce(new Vector3(MoveDir.x, 0, MoveDir.y).normalized * WalkAcceleration * rb.mass * WalkSpeed);
-                //anim.SetBool("run", false);
-                //anim.SetBool("walk", true);
-                //anim.SetBool("idle", false);
+            if (h > 0.1f || h < -0.1f || v > 0.1f || v < -0.1f) //персонаж двигается
+            {
+                rb.AddForce(new Vector3(MoveDir.x, 0, MoveDir.y).normalized * rb.mass * WalkSpeed);
+                anim.SetBool("Run", true);
+                anim.SetBool("idle", false);
+            }
+            else //персонаж стоит
+            {
+                anim.SetBool("Run", false);
+                anim.SetBool("idle", true);
+            }
         }
-        else //персонаж стоит
+        if (Physics.Raycast(transform.position + new Vector3(0, .1f, 0), Vector3.down, RayDis) || Physics.Raycast(transform.position + new Vector3(0, .6f, 0), Vector3.down, RayDis))
         {
-            //anim.SetBool("run", false);
-            //anim.SetBool("walk", false);
-            //anim.SetBool("idle", true);
+            InAir = false;
+            anim.SetBool("InJump", false);
         }
-    }
+        else
+        {
+            InAir = true;
+            anim.SetBool("InJump", true);
+        }
+    }   
 }
