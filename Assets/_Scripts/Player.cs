@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody rb;
     private Animator anim;
+    private PhotonView pv;
 
     private Vector3 direction;
     private float h, v;
@@ -25,7 +27,21 @@ public class Player : MonoBehaviour
     private IEnumerator _Jump;
     private IEnumerator _Slide;
 
-    [HideInInspector] public bool IsLocalPlayer;
+    [HideInInspector] public bool IsLocalPlayer = true;
+    public GameObject LocalObjects;
+    private void Awake()
+    {
+        pv = GetComponentInParent<PhotonView>();
+        if (!pv.IsMine)
+        {
+            IsLocalPlayer = false;
+            LocalObjects.SetActive(false);
+        }
+        else
+        {
+            IsLocalPlayer = true;
+        }
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -58,6 +74,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+    //[PunRPC]
     public IEnumerator Jump()
     {
         anim.SetTrigger("jump");
@@ -66,6 +83,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _Jump = null;
     }
+    //[PunRPC]
     public IEnumerator Slide()
     {
         anim.SetBool("slide", true);
