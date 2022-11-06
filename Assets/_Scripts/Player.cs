@@ -32,14 +32,14 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         pv = GetComponentInParent<PhotonView>();
-        if (!pv.IsMine)
+        if (pv.IsMine)
         {
-            IsLocalPlayer = false;
-            LocalObjects.SetActive(false);
+            IsLocalPlayer = true;
         }
         else
         {
-            IsLocalPlayer = true;
+            IsLocalPlayer = false;
+            LocalObjects.SetActive(false);
         }
     }
     void Start()

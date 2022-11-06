@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class GameManager : MonoBehaviour
+public class Manager : MonoBehaviour
 {
     public GameObject Player;
     public Transform SpawnPos;
