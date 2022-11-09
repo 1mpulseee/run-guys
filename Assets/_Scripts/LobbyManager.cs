@@ -120,7 +120,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         RoomMenu();
         RefreshPlayers();
-        if (_AutoConnect == null)
+        if (_AutoConnect != null)
         {
             StopCoroutine(_AutoConnect);
         }
