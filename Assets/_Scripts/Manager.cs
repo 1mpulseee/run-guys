@@ -11,7 +11,7 @@ public class Manager : MonoBehaviourPunCallbacks
     private GameObject Player;
 
     public GameObject BotPrefab;
-    private GameObject Bot;
+    public GameObject Bot;
     public void Awake()
     {
         Player = PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPos.position, SpawnPos.rotation);
