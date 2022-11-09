@@ -44,6 +44,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (_AutoConnect == null)
         {
             _AutoConnect = AutoConnect();
+            StartCoroutine(_AutoConnect);
         }
     }
     public IEnumerator AutoConnect()
