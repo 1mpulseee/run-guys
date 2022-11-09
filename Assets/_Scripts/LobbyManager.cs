@@ -18,7 +18,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject ForRoom;
 
     private IEnumerator _AutoConnect;
-    private string NewRoomName;
     public TMP_Text RoomName;
 
     private void Awake()
@@ -96,7 +95,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void CreateRoom()
     {
-        NewRoomName = Random.Range(10000, 99999).ToString();
+        string NewRoomName = Random.Range(10000, 99999).ToString();
         PhotonNetwork.CreateRoom(NewRoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = false }, Photon.Realtime.TypedLobby.Default);
         Debug.Log("Create");
     }

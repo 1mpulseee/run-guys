@@ -170,6 +170,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 370672896341771232, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
   SpawnPos: {fileID: 303552290}
   BotPrefab: {fileID: 334269773241100235, guid: a49e892c22b5baf439f26c3e74979074, type: 3}
+  Bot: {fileID: 0}
 --- !u!1 &539480114
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,6 +948,10 @@ PrefabInstance:
     - target: {fileID: 370672896341771233, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331999713120210553, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
+      propertyPath: sceneViewId
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
