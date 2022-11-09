@@ -109,13 +109,13 @@ public class Player : MonoBehaviour
     }
 
     [PunRPC]
-    private void SlideOnline()
+    public void SlideOnline()
     {
         StartCoroutine(Slide());
     }
 
     [PunRPC]
-    private void JumpOnline()
+    public void JumpOnline()
     {
         StartCoroutine(Jump());
     }
