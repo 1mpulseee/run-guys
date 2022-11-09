@@ -41,9 +41,9 @@ public class Manager : MonoBehaviourPunCallbacks
         }
     }
     [PunRPC]
-    public void GiveBots(List<GameObject> NewBots)
+    public void GiveBots(GameObject NewBots)
     {
-        Bots = NewBots;
+        Bot = NewBots;
     }
     public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
     {
