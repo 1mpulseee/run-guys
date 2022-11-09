@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     public GameObject LocalObjects;
     private void Awake()
     {
-        pv = GetComponentInParent<PhotonView>();
+        pv = GetComponent<PhotonView>();
         if (pv.IsMine)
         {
             IsLocalPlayer = true;
