@@ -19,6 +19,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject ForLobby;
     [SerializeField] GameObject ForRoom;
 
+    private IEnumerator _AutoConnect;
+
     private void Awake()
     {
         Instance = this;
@@ -37,16 +39,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRoom(RoomName);
     }
-    public void StartGame()
+    public void AutoGame()
     {
-        if (CheckRooms())
+        if (_AutoConnect == null)
         {
-            JoinRoom();
+            _AutoConnect = AutoConnect();
         }
-        else
-        {
-            CreateRoom();
-        }
+    }
+    public IEnumerator AutoConnect()
+    {
+        JoinRoom();
+        yield return new WaitForSeconds(3);
+        CreateRoom();
+        _AutoConnect = null;
     }
     public void LoadLvl()
     {
@@ -70,24 +75,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             photonView.RPC("ShowPlayers", RpcTarget.All, "players" + "\n" + string.Join("\n", PhotonNetwork.PlayerList.ToStringFull()));
         }
     }
-    public bool CheckRooms()
-    {
-        if (roomList.Count > 0)
-        {
-            for (int i = 0; i < roomList.Count; i++)
-            {
-                if (roomList[i].PlayerCount < roomList[i].MaxPlayers)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        else
-        {
-            return false;
-        }
-    }
     public void LoadMenu()
     {
         ForLoading.SetActive(true);
@@ -109,7 +96,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         string RoomName = "room" + Random.Range(0, 10000);
-        PhotonNetwork.CreateRoom(RoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = true }, Photon.Realtime.TypedLobby.Default);
+        PhotonNetwork.CreateRoom(RoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = false }, Photon.Realtime.TypedLobby.Default);
         Debug.Log("Create");
     }
     public void JoinRoom()
@@ -128,18 +115,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
 
-
-
-
     public override void OnJoinedRoom()
     {
         RoomMenu();
         RefreshPlayers();
+        if (_AutoConnect == null)
+        {
+            StopCoroutine(_AutoConnect);
+        }
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         RefreshPlayers();
-        photonView.RPC("", newPlayer);
     }
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {

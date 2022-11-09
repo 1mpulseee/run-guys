@@ -2602,7 +2602,7 @@ MonoBehaviour:
   SlideUpForce: 75
   RayDis: 1
   IsLocalPlayer: 0
-  LocalObjects: {fileID: 0}
+  LocalObjects: {fileID: 7826463176739723899}
 --- !u!114 &1217534448
 MonoBehaviour:
   m_ObjectHideFlags: 0

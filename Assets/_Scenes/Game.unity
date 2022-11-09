@@ -167,8 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd9fb7bf4f0d154e99d4434b3e77a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 370672898028673097}
+  PlayerPrefab: {fileID: 370672896341771232, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
   SpawnPos: {fileID: 303552290}
+  BotPrefab: {fileID: 334269773241100235, guid: a49e892c22b5baf439f26c3e74979074, type: 3}
 --- !u!1 &539480114
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,8 +950,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
---- !u!1 &370672898028673097 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 370672896341771232, guid: 6e2666461f97ed94f9becd5b5cbfe8a0, type: 3}
-  m_PrefabInstance: {fileID: 370672898028673096}
-  m_PrefabAsset: {fileID: 0}
