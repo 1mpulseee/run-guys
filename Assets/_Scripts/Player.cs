@@ -64,12 +64,14 @@ public class Player : MonoBehaviour
                     {
                         _Slide = Slide();
                         StartCoroutine(_Slide);
+                        pv.RPC("SlideOnline", RpcTarget.Others);
                     }
                 }
                 if (!InAir && _Jump == null)
                 {
                     _Jump = Jump();
                     StartCoroutine(_Jump);
+                    pv.RPC("JumpOnline", RpcTarget.Others);
                 }
             }
         }
@@ -104,6 +106,18 @@ public class Player : MonoBehaviour
             }
             yield return new WaitForSeconds(.05f);
         }
+    }
+
+    [PunRPC]
+    private void SlideOnline()
+    {
+        StartCoroutine(Slide());
+    }
+
+    [PunRPC]
+    private void JumpOnline()
+    {
+        StartCoroutine(Jump());
     }
     private void FixedUpdate()
     {
