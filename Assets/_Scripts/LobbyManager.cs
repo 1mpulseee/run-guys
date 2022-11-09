@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -11,7 +10,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public static LobbyManager Instance;
     [System.Serializable] public enum Scenes {Game };
     public Scenes scenes;
-    private List<RoomInfo> roomList = new List<RoomInfo>();
 
     [SerializeField] TMP_Text PlayersText;
 
@@ -20,6 +18,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject ForRoom;
 
     private IEnumerator _AutoConnect;
+    private string NewRoomName;
+    public TMP_Text RoomName;
 
     private void Awake()
     {
@@ -96,8 +96,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void CreateRoom()
     {
-        string RoomName = "room" + Random.Range(0, 10000);
-        PhotonNetwork.CreateRoom(RoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = false }, Photon.Realtime.TypedLobby.Default);
+        NewRoomName = Random.Range(10000, 99999).ToString();
+        PhotonNetwork.CreateRoom(NewRoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = false }, Photon.Realtime.TypedLobby.Default);
         Debug.Log("Create");
     }
     public void JoinRoom()
@@ -120,6 +120,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         RoomMenu();
         RefreshPlayers();
+        RoomName.text = "Room - " + PhotonNetwork.CurrentRoom.Name;
         if (_AutoConnect != null)
         {
             StopCoroutine(_AutoConnect);
@@ -136,10 +137,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         LobbyMenu();
-    }
-    public override void OnRoomListUpdate(List<RoomInfo> roomListUpd)
-    {
-        roomList = roomListUpd;
     }
     public override void OnLeftRoom()
     {
