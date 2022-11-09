@@ -21,12 +21,14 @@ public class Manager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("HostQuit");
             Photon.Realtime.Player NewHost = null;
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
                 if (PhotonNetwork.PlayerList[i] != PhotonNetwork.LocalPlayer)
                 {
                     NewHost = PhotonNetwork.PlayerList[i];
+                    Debug.Log("New - " + NewHost.NickName);
                     break;
                 }
             }
@@ -36,7 +38,7 @@ public class Manager : MonoBehaviourPunCallbacks
             }
             Bot.GetComponent<PhotonView>().TransferOwnership(NewHost);
             PhotonNetwork.SetMasterClient(NewHost);
-            photonView.RPC("GiveBots", NewHost, Bots);
+            photonView.RPC("GiveBots", NewHost, Bot);
             PhotonNetwork.Destroy(Player);
         }
     }
@@ -44,9 +46,10 @@ public class Manager : MonoBehaviourPunCallbacks
     public void GiveBots(GameObject NewBots)
     {
         Bot = NewBots;
+        Debug.Log("BotChange");
     }
     public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
     {
-        Debug.Log(newMasterClient.NickName);
+        Debug.Log("Master - " + newMasterClient.NickName);
     }
 }
