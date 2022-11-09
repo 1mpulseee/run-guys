@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -19,7 +20,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private IEnumerator _AutoConnect;
     public TMP_Text RoomName;
-
+    [SerializeField] TMP_InputField TextRoom;
     private void Awake()
     {
         Instance = this;
@@ -34,9 +35,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
    
-    public void JoinToRoomWithName(string RoomName)
+    public void JoinToRoomWithName()
     {
-        PhotonNetwork.JoinRoom(RoomName);
+        PhotonNetwork.JoinRoom(TextRoom.text);
+        TextRoom.text = " ";
     }
     public void AutoGame()
     {
