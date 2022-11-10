@@ -226,10 +226,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 1217534448}
-  - {fileID: 1217534449}
-  - {fileID: 1217534450}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2598,7 +2595,7 @@ MonoBehaviour:
   Cam: {fileID: 370672897640117564}
   CamOrigin: {fileID: 370672896556070411}
   WalkSpeed: 30
-  JumpForce: 100
+  JumpForce: 150
   SlideForwardForce: 250
   SlideUpForce: 75
   RayDis: 1

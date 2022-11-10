@@ -5,17 +5,23 @@ using Photon.Pun;
 
 public class Manager : MonoBehaviourPunCallbacks
 {
+    public Transform[] Ways;
+
     public GameObject PlayerPrefab;
     public Transform SpawnPos;
+    public Transform SpawnPosBot;
     private List<GameObject> Bots = new List<GameObject>();
     private GameObject Player;
 
     public GameObject BotPrefab;
     public GameObject Bot;
+
+    public static Manager Instance { get; private set; }
     public void Awake()
     {
+        Instance = this;
         Player = PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPos.position, SpawnPos.rotation);
-        Bot = PhotonNetwork.Instantiate(BotPrefab.name, Vector3.zero, Quaternion.identity);
+        Bot = PhotonNetwork.Instantiate(BotPrefab.name, SpawnPosBot.position, SpawnPosBot.rotation);
     }
     public override void OnLeftRoom()
     {

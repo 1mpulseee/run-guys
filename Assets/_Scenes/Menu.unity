@@ -975,7 +975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e4458ac20f85041af3c55c4c1d2944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenes: 0
+  scenes: 1
   PlayersText: {fileID: 1951615890}
   ForLoading: {fileID: 446525616}
   ForLobby: {fileID: 1797669102}

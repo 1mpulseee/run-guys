@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager Instance;
-    [System.Serializable] public enum Scenes {Game };
+    [System.Serializable] public enum Scenes {Game, RunMap1 };
     public Scenes scenes;
 
     [SerializeField] TMP_Text PlayersText;
@@ -38,7 +38,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void JoinToRoomWithName()
     {
         PhotonNetwork.JoinRoom(TextRoom.text);
-        TextRoom.text = " ";
+        TextRoom.text = "";
     }
     public void AutoGame()
     {
